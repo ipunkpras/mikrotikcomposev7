@@ -1,0 +1,41 @@
+#///#///#///#///#///# SCRIPT #///#///#///#///#///#
+version: "3"
+services:
+ routeros2:
+   container_name: publicgw.net
+   image: ferilagi/ros7:amd64
+   restart: unless-stopped
+   privileged: true
+   cap_add:
+     - NET_ADMIN
+   devices:
+     - /dev/net/tun
+   networks:
+     internal_network:
+       ipv4_address: 172.18.111.10
+   ports:
+     - "2222:22" # port SSH
+     - "2223:23" # port Telnet
+     - "88:80" # port HTTP
+     - "8728:8728" # port API
+     - "8729:8729" # port API SSL
+     - "8291:8291" # port WINBOX
+     - "1701" # port L2TP
+     - "500" # port IPSEC
+     - "500/udp" #port IPSEC
+     - "4500/udp" #port IPSEC
+     - "1701/udp" #port IPSEC
+     - "1723" # port PPTP 
+     - "1194:1194/udp" # port OPENVPN
+     - "443" #port OPENVPN
+#      - "5900:5900" # port VNC
+     - "67:67/udp" # port DHCPServer
+     - "161/udp" # port SNMP
+     - "162/udp" # port SNMP
+     - "68/udp" # port DHCPClient
+     - "2221:21" # port ftp
+networks:
+  internal_network:
+    external:
+      name: network-dev
+#///#///#///#///#///# SCRIPT #///#///#///#///#///#
